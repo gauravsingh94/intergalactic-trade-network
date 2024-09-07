@@ -1,0 +1,37 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Trade {
+  id        String   @id @default(uuid())
+  buyerId   String
+  sellerId  String
+  itemId    String
+  quantity  Int
+  price     Float
+  status    String
+  timestamp DateTime @default(now())
+}
+
+model Cargo {
+  id                   String   @id @default(uuid())
+  originStationId      String
+  destinationStationId String
+  status               String
+  eta                  DateTime
+  currentLocation      String
+}
+
+model Inventory {
+  id        String @id @default(uuid())
+  stationId String
+  itemId    String
+  quantity  Int
+
+  @@unique([stationId, itemId])
+}
